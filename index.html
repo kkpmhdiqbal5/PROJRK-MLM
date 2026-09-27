@@ -8,48 +8,97 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body {
             display: flex; justify-content: center; align-items: center; height: 100vh;
-            background-color: #0a0a0a;
-            /* Simulasi background gelap bergelombang dengan gradient */
-            background-image: radial-gradient(circle at top left, rgba(60, 45, 15, 0.3) 0%, transparent 40%),
-                              radial-gradient(circle at bottom right, rgba(20, 20, 20, 0.8) 0%, transparent 50%);
+            background-color: #050505;
             color: #fff;
+            overflow: hidden; /* Mencegah scroll dari elemen background */
+            position: relative;
         }
+
+        /* --- ANIMASI BACKGROUND --- */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+        .shape1 {
+            width: 400px; height: 400px;
+            background: rgba(245, 197, 24, 0.15); /* Cahaya emas */
+            top: -100px; left: -100px;
+        }
+        .shape2 {
+            width: 500px; height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            bottom: -150px; right: -100px;
+            animation-delay: -4s; /* Supaya gerakannya tidak bersamaan */
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* --- ANIMASI MUNCUL PANEL --- */
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         .glass-panel {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
             padding: 40px;
             width: 100%; max-width: 420px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+            /* Memanggil animasi saat halaman diload */
+            animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            position: relative;
+            z-index: 1;
         }
+        
         .text-center { text-align: center; }
         h2 { font-size: 28px; margin-bottom: 5px; font-weight: 600; }
         p.subtitle { color: #888; font-size: 13px; margin-bottom: 25px; }
         
         .input-group { margin-bottom: 18px; text-align: left; }
-        .input-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 8px; }
+        .input-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 8px; transition: color 0.3s; }
         .input-group input {
             width: 100%; padding: 12px 15px;
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px; color: #fff; outline: none; transition: 0.3s;
+            border-radius: 10px; color: #fff; outline: none; 
+            transition: all 0.3s ease;
         }
-        .input-group input:focus { border-color: #f5c518; }
+        .input-group input:focus { 
+            border-color: #f5c518; 
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(245, 197, 24, 0.2);
+        }
+        .input-group input:focus + label { color: #f5c518; }
         
         .flex-between { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 25px; }
-        .flex-between a { color: #aaa; text-decoration: none; }
-        .flex-between a:hover { color: #f5c518; }
+        .flex-between a { color: #aaa; text-decoration: none; transition: 0.3s; }
+        .flex-between a:hover { color: #f5c518; text-shadow: 0 0 5px rgba(245,197,24,0.5); }
         .checkbox-group { display: flex; align-items: center; gap: 8px; color: #aaa; cursor: pointer;}
         
         .btn-primary {
             width: 100%; padding: 14px;
             background: #f5c518; color: #111;
             border: none; border-radius: 10px;
-            font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.3s;
+            font-weight: 600; font-size: 15px; cursor: pointer; 
+            transition: all 0.3s ease;
         }
-        .btn-primary:hover { background: #e0b00c; }
+        /* Animasi Hover Tombol */
+        .btn-primary:hover { 
+            background: #ffdb4d; 
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
+        }
+        .btn-primary:active { transform: translateY(0); } /* Animasi saat diklik */
         
         .divider { display: flex; align-items: center; text-align: center; margin: 25px 0; color: #555; font-size: 12px; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -61,15 +110,189 @@
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
             border-radius: 10px; color: #fff; cursor: pointer;
             display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 13px;
+            transition: all 0.3s ease;
         }
-        .btn-social:hover { background: rgba(255,255,255,0.1); }
+        .btn-social:hover { 
+            background: rgba(255,255,255,0.15); 
+            transform: translateY(-3px);
+        }
         
         .footer-link { margin-top: 25px; font-size: 13px; color: #aaa; }
-        .footer-link a { color: #fff; text-decoration: none; font-weight: 600; }
-        .footer-link a:hover { text-decoration: underline; }
+        .footer-link a { color: #fff; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .footer-link a:hover { color: #f5c518; }
     </style>
 </head>
 <body>
+    <!-- Elemen Background Melayang -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+
+    <div class="glass-panel text-center">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Please enter your details to access your account</p>
+        
+        <form action="#" method="POST">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="name@domain.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+            
+            <div class="flex-between">
+                <label class="checkbox-group">
+                    <input type="checkbox"> Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="btn-primary">Sign In &rarr;</button>
+        </form>
+        
+        <div class="divider"><span>OR</span></div>
+        
+        <div class="social-login">
+            <button class="btn-social">Google</button>
+            <button class="btn-social">Apple</button>
+        </div>
+        
+        <div class="footer-link">
+            Don't have an account? <a href="daftar.html">Sign up</a>
+        </div>
+    </div>
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Glassmorphism</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+            background-color: #050505;
+            color: #fff;
+            overflow: hidden; /* Mencegah scroll dari elemen background */
+            position: relative;
+        }
+
+        /* --- ANIMASI BACKGROUND --- */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: float 8s ease-in-out infinite;
+        }
+        .shape1 {
+            width: 400px; height: 400px;
+            background: rgba(245, 197, 24, 0.15); /* Cahaya emas */
+            top: -100px; left: -100px;
+        }
+        .shape2 {
+            width: 500px; height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            bottom: -150px; right: -100px;
+            animation-delay: -4s; /* Supaya gerakannya tidak bersamaan */
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* --- ANIMASI MUNCUL PANEL --- */
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%; max-width: 420px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+            /* Memanggil animasi saat halaman diload */
+            animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .text-center { text-align: center; }
+        h2 { font-size: 28px; margin-bottom: 5px; font-weight: 600; }
+        p.subtitle { color: #888; font-size: 13px; margin-bottom: 25px; }
+        
+        .input-group { margin-bottom: 18px; text-align: left; }
+        .input-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 8px; transition: color 0.3s; }
+        .input-group input {
+            width: 100%; padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px; color: #fff; outline: none; 
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus { 
+            border-color: #f5c518; 
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(245, 197, 24, 0.2);
+        }
+        .input-group input:focus + label { color: #f5c518; }
+        
+        .flex-between { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 25px; }
+        .flex-between a { color: #aaa; text-decoration: none; transition: 0.3s; }
+        .flex-between a:hover { color: #f5c518; text-shadow: 0 0 5px rgba(245,197,24,0.5); }
+        .checkbox-group { display: flex; align-items: center; gap: 8px; color: #aaa; cursor: pointer;}
+        
+        .btn-primary {
+            width: 100%; padding: 14px;
+            background: #f5c518; color: #111;
+            border: none; border-radius: 10px;
+            font-weight: 600; font-size: 15px; cursor: pointer; 
+            transition: all 0.3s ease;
+        }
+        /* Animasi Hover Tombol */
+        .btn-primary:hover { 
+            background: #ffdb4d; 
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
+        }
+        .btn-primary:active { transform: translateY(0); } /* Animasi saat diklik */
+        
+        .divider { display: flex; align-items: center; text-align: center; margin: 25px 0; color: #555; font-size: 12px; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .divider span { padding: 0 10px; }
+        
+        .social-login { display: flex; gap: 15px; }
+        .btn-social {
+            flex: 1; padding: 10px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; color: #fff; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 13px;
+            transition: all 0.3s ease;
+        }
+        .btn-social:hover { 
+            background: rgba(255,255,255,0.15); 
+            transform: translateY(-3px);
+        }
+        
+        .footer-link { margin-top: 25px; font-size: 13px; color: #aaa; }
+        .footer-link a { color: #fff; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .footer-link a:hover { color: #f5c518; }
+    </style>
+</head>
+<body>
+    <!-- Elemen Background Melayang -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+
     <div class="glass-panel text-center">
         <h2>Welcome Back</h2>
         <p class="subtitle">Please enter your details to access your account</p>
