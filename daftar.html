@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Glassmorphism</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+            background-color: #0a0a0a;
+            background-image: radial-gradient(circle at top left, rgba(60, 45, 15, 0.3) 0%, transparent 40%),
+                              radial-gradient(circle at bottom right, rgba(20, 20, 20, 0.8) 0%, transparent 50%);
+            color: #fff;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px; padding: 40px;
+            width: 100%; max-width: 480px; /* Sedikit lebih lebar dari login */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .text-center { text-align: center; }
+        h2 { font-size: 28px; margin-bottom: 5px; font-weight: 600; color: #f5c518; }
+        p.subtitle { color: #888; font-size: 13px; margin-bottom: 25px; }
+        
+        .row { display: flex; gap: 15px; }
+        .col { flex: 1; }
+        
+        .input-group { margin-bottom: 18px; text-align: left; position: relative; }
+        .input-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 8px; }
+        .input-group input {
+            width: 100%; padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px; color: #fff; outline: none; transition: 0.3s;
+        }
+        .input-group input:focus { border-color: #f5c518; }
+        
+        #pesan-password { display: block; font-size: 11px; margin-top: 5px; height: 12px; }
+        
+        .checkbox-group { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #aaa; margin-bottom: 20px; cursor: pointer; text-align: left; }
+        
+        .btn-primary {
+            width: 100%; padding: 14px;
+            background: #f5c518; color: #111;
+            border: none; border-radius: 10px;
+            font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-primary:hover:not(:disabled) { background: #e0b00c; }
+        .btn-primary:disabled { background: #555; color: #888; cursor: not-allowed; }
+        
+        .divider { display: flex; align-items: center; text-align: center; margin: 20px 0; color: #555; font-size: 12px; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .divider span { padding: 0 10px; }
+        
+        .social-login { display: flex; gap: 15px; }
+        .btn-social {
+            flex: 1; padding: 10px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; color: #fff; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 13px;
+        }
+        
+        .footer-link { margin-top: 25px; font-size: 13px; color: #aaa; }
+        .footer-link a { color: #fff; text-decoration: none; font-weight: 600; }
+        .footer-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="glass-panel text-center">
+        <h2>Create Account</h2>
+        <p class="subtitle">Join us to organize your workspace</p>
+        
+        <form id="form-daftar" action="#" method="POST">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="John Doe" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="name@domain.com" required>
+            </div>
+            
+            <div class="row">
+                <div class="col input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                    <span id="pesan-password"></span>
+                </div>
+                <div class="col input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="••••••••" required>
+                </div>
+            </div>
+            
+            <label class="checkbox-group">
+                <input type="checkbox" required> I agree to the Terms & Privacy Policy
+            </label>
+            
+            <button type="submit" id="btn-daftar" class="btn-primary" disabled>Create Account &rarr;</button>
+        </form>
+        
+        <div class="divider"><span>OR</span></div>
+        
+        <div class="social-login">
+            <button class="btn-social">Google</button>
+            <button class="btn-social">Apple</button>
+        </div>
+        
+        <div class="footer-link">
+            Already have an account? <a href="login.html">Sign in</a>
+        </div>
+    </div>
+
+    <!-- Script Validasi -->
+    <script>
+        const inputPassword = document.getElementById('password');
+        const inputConfirm = document.getElementById('confirm-password');
+        const pesanPassword = document.getElementById('pesan-password');
+        const btnDaftar = document.getElementById('btn-daftar');
+
+        function cekValidasi() {
+            const password = inputPassword.value;
+            const confirm = inputConfirm.value;
+            let kekuatan = 0;
+
+            if (password.length === 0) {
+                pesanPassword.textContent = "";
+                btnDaftar.disabled = true;
+                return;
+            }
+
+            if (password.length >= 8) kekuatan += 1;
+            if (/[a-z]/.test(password)) kekuatan += 1;
+            if (/[A-Z]/.test(password)) kekuatan += 1;
+            if (/[0-9]/.test(password)) kekuatan += 1;
+
+            if (kekuatan <= 2) {
+                pesanPassword.textContent = "Lemah";
+                pesanPassword.style.color = "#ff4d4d";
+                btnDaftar.disabled = true;
+            } else if (kekuatan === 3) {
+                pesanPassword.textContent = "Sedang";
+                pesanPassword.style.color = "#f5c518";
+                btnDaftar.disabled = (password !== confirm);
+            } else {
+                pesanPassword.textContent = "Kuat";
+                pesanPassword.style.color = "#28a745";
+                btnDaftar.disabled = (password !== confirm || confirm === "");
+            }
+        }
+
+        inputPassword.addEventListener('input', cekValidasi);
+        inputConfirm.addEventListener('input', cekValidasi);
+    </script>
+</body>
+</html>
